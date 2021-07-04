@@ -1,0 +1,20 @@
+<xs:schema 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://www.com.charlieczh/orderItem"
+		targetNamespace="http://www.com.charlieczh/orderItem" elementFormDefault="qualified"
+		xmlns:perfume="http://www.com.charlieczh/perfume">
+
+		<xs:import namespace="http://www.com.charlieczh/perfume" schemaLocation="perfume.xsd" />
+
+		<xs:element name="orderItem">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="amount" type="xs:long" />
+					<xs:element name="quantity" type="xs:long" />
+
+					<xs:element ref="perfume:perfume" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+
+</xs:schema>

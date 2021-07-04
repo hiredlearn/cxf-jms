@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.wsdl2java.cxfjms.charlieczh.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="OrderService" targetNamespace="http://service.wsdl2java.cxfjms.charlieczh.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.charlieczh.com/perfume" version="1.0">
+
+  <xs:element name="perfume">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element form="qualified" name="id" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.charlieczh.com/order" xmlns:ns1="http://www.charlieczh.com/orderItem" elementFormDefault="qualified" targetNamespace="http://www.charlieczh.com/orderService" version="1.0">
+
+  <xs:import namespace="http://www.charlieczh.com/orderItem"/>
+
+  <xs:import namespace="http://www.charlieczh.com/order"/>
+
+  <xs:element name="postOrderRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ns2:order"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="postOrderResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="message" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.charlieczh.com/perfume" targetNamespace="http://www.charlieczh.com/orderItem" version="1.0">
+
+  <xs:import namespace="http://www.charlieczh.com/perfume"/>
+
+  <xs:element name="orderItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element form="qualified" name="amount" type="xs:long"/>
+        <xs:element form="qualified" name="quantity" type="xs:long"/>
+        <xs:element ref="ns1:perfume"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.charlieczh.com/orderItem" xmlns:ns1="http://www.charlieczh.com/perfume" targetNamespace="http://www.charlieczh.com/order" version="1.0">
+
+  <xs:import namespace="http://www.charlieczh.com/perfume"/>
+
+  <xs:import namespace="http://www.charlieczh.com/orderItem"/>
+
+  <xs:element name="order">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element form="qualified" name="totalPrice" type="xs:double"/>
+        <xs:element form="qualified" name="date" type="xs:date"/>
+        <xs:element form="qualified" name="firstName" type="xs:string"/>
+        <xs:element form="qualified" name="lastName" type="xs:string"/>
+        <xs:element form="qualified" name="city" type="xs:string"/>
+        <xs:element form="qualified" name="address" type="xs:string"/>
+        <xs:element form="qualified" name="email" type="xs:string"/>
+        <xs:element form="qualified" name="phoneNumber" type="xs:string"/>
+        <xs:element form="qualified" name="postIndex" type="xs:integer"/>
+        <xs:element maxOccurs="unbounded" ref="ns2:orderItem"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.wsdl2java.cxfjms.charlieczh.com/" xmlns:ns2="http://www.charlieczh.com/orderService" xmlns:ns1="http://www.charlieczh.com/order" elementFormDefault="unqualified" targetNamespace="http://service.wsdl2java.cxfjms.charlieczh.com/" version="1.0">
+
+  <xs:import namespace="http://www.charlieczh.com/order"/>
+
+  <xs:import namespace="http://www.charlieczh.com/orderService"/>
+
+  <xs:element name="postOrderRequest" type="tns:postOrderRequest"/>
+
+  <xs:element name="postOrderRequestResponse" type="tns:postOrderRequestResponse"/>
+
+  <xs:complexType name="postOrderRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ns1:order"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="postOrderRequestResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="postOrderRequestResponse">
+    <wsdl:part element="tns:postOrderRequestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="postOrderRequest">
+    <wsdl:part element="tns:postOrderRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OrderService">
+    <wsdl:operation name="postOrderRequest">
+      <wsdl:input message="tns:postOrderRequest" name="postOrderRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:postOrderRequestResponse" name="postOrderRequestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderServiceSoapBinding" type="tns:OrderService">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="postOrderRequest">
+      <soap:operation soapAction="postOrder" style="document"/>
+      <wsdl:input name="postOrderRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="postOrderRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderService">
+    <wsdl:port binding="tns:OrderServiceSoapBinding" name="OrderServicePort">
+      <soap:address location="http://localhost:8080/OrderService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

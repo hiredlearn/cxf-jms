@@ -1,0 +1,25 @@
+<xs:schema 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://www.com.charlieczh/orderService"
+		targetNamespace="http://www.com.charlieczh/orderService" elementFormDefault="qualified"
+		xmlns:order="http://www.com.charlieczh/order">
+
+		<xs:import namespace="http://www.com.charlieczh/order" schemaLocation="order.xsd" />
+
+		<xs:element name="postOrderRequest">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element ref="order:order"/>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+
+		<xs:element name="postOrderResponse">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="message" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+
+</xs:schema>
