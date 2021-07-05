@@ -77,4 +77,18 @@ public class CxfJmsApplication {
 			System.out.println("Message data -> " + messageData);
 		}
     }
+
+    @JmsListener(destination = "response.queue")
+    public void receiveSoapMessage(final Message message) throws JMSException {
+    	System.out.println("Received JMS Message -> " + message);
+        String messageData = null;
+
+        if(message instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage)message;
+            messageData = textMessage.getText();
+            System.out.println("Received JMS Message data -> "+messageData);
+
+        }
+        template.convertAndSend("client.queue", message);
+    }
 }
